@@ -1,7 +1,11 @@
 const express = require('express'); 
 const cors = require('cors'); 
 const sequelize = require('./config/database'); 
-var app = express(); 
+var app = express();
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./config/swagger');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
  
 //middlewares 
 app.use(express.json()); 
@@ -10,6 +14,8 @@ app.use(cors({origin: 'http://localhost:4200'}));
 //Cargamos el modulo de direccionamiento de rutas 
 app.use('/api/socio', require('./src/routes/socio.route.js'));
 app.use('/api/transaccion', require('./src/routes/transaccion.route.js'));
+app.use('/api/empleado', require('./src/routes/empleado.route.js'));
+app.use('/api/publicacion', require('./src/routes/publicacion.route.js'));
 //app.use('/api/agente', require('./src/routes/agente.route.js')); 
 //app.use('/api/sector', require('./src/routes/sector.route')); 
  
