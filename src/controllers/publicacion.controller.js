@@ -5,8 +5,27 @@ const publicacionCtrl = {};
 
 publicacionCtrl.crearPublicacion = async (req, res) => {
   try {
-    const nuevaPublicacion = await Publicacion.create(req.body);
-    res.status(201).json({ mensaje: 'Publicación creada', publicacion: nuevaPublicacion });
+    const { titulo, contenido, imagenAsociada, fechaPublicacion, vigente, empleado } = req.body;
+
+    if (!empleado || !empleado.id) {
+      return res.status(400).json({ error: 'Debe enviar el objeto empleado con su respectivo id' });
+    }
+    
+    const empleadoExiste = await Empleado.findByPk(empleado.id);
+    if (!empleadoExiste) {
+      return res.status(404).json({ error: `No se encontró ningún empleado con el ID: ${empleado.id}` });
+    }
+
+    const nuevaPublicacion = await Publicacion.create({
+      titulo: titulo,
+      contenido: contenido,
+      imagenAsociada: imagenAsociada,
+      fechaPublicacion: fechaPublicacion,
+      vigente: vigente,
+      empleadoId: empleado.id
+    });
+
+    res.status(201).json({ mensaje: 'Publicación creada con éxito', publicacion: nuevaPublicacion });
   } catch (error) {
     res.status(500).json({ error: 'Error al crear publicación', detalle: error.message });
   }

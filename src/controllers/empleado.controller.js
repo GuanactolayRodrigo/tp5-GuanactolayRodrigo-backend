@@ -21,8 +21,8 @@ empleadoCtrl.obtenerTodos = async (req, res) => {
 
 empleadoCtrl.obtenerUno = async (req, res) => {
   try {
-    const { id } = req.params;
-    const empleado = await Empleado.findByPk(id);
+    const { dni } = req.params;
+    const empleado = await Empleado.findOne({ where: { dni: dni } });
     if (empleado) {
       res.status(200).json(empleado);
     } else {
