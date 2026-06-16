@@ -59,15 +59,35 @@ publicacionCtrl.eliminarPublicacion = async (req, res) => {
 publicacionCtrl.modificarPublicacion = async (req, res) => {
   try {
     const { id } = req.params;
-    const [actualizado] = await Publicacion.update(req.body, { where: { id } });
+    const { titulo, contenido, imagenAsociada, fechaPublicacion, vigente, empleado } = req.body;
+    const datosAActualizar = {
+      titulo,
+      contenido,
+      imagenAsociada,
+      fechaPublicacion,
+      vigente
+    };
+    if (empleado && empleado.id) {
+      const empleadoExiste = await Empleado.findByPk(empleado.id);
+      if (!empleadoExiste) {
+        return res.status(404).json({ error: `No se encontró ningún empleado con el ID: ${empleado.id}` });
+      }
+      datosAActualizar.empleadoId = empleado.id;
+    }
+    const [actualizado] = await Publicacion.update(datosAActualizar, {
+      where: { id: id }
+    });
+
     if (actualizado) {
-      const pubActualizada = await Publicacion.findByPk(id, { include: [{ model: Empleado, as: 'empleado' }] });
-      res.status(200).json({ mensaje: 'Publicación modificada', publicacion: pubActualizada });
+      const pubActualizada = await Publicacion.findByPk(id, { 
+        include: [{ model: Empleado, as: 'empleado' }] 
+      });
+      res.status(200).json({ mensaje: 'Publicación modificada con éxito', publicacion: pubActualizada });
     } else {
-      res.status(404).json({ error: 'Publicación no encontrada' });
+      res.status(404).json({ error: 'La publicación que intenta modificar no existe' });
     }
   } catch (error) {
-    res.status(500).json({ error: 'Error al modificar', detalle: error.message });
+    res.status(500).json({ error: 'Error al modificar la publicación', detalle: error.message });
   }
 };
 

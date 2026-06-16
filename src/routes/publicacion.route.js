@@ -46,6 +46,12 @@ const publicacionCtrl = require('../controllers/publicacion.controller');
  *     responses:
  *       200:
  *         description: Lista de publicaciones obtenida con éxito
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Publicacion'
  */
 router.get('/', publicacionCtrl.obtenerTodas);
 
@@ -87,6 +93,12 @@ router.post('/', publicacionCtrl.crearPublicacion);
  *     responses:
  *       200:
  *         description: Resultados de la búsqueda obtenidos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Publicacion'
  */
 router.post('/buscar', publicacionCtrl.buscarCombinada);
 
@@ -107,17 +119,14 @@ router.post('/buscar', publicacionCtrl.buscarCombinada);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             example:
- *               titulo: "Mi publicación modificada"
- *               contenido: "Contenido actualizado de la publicación."
- *               imagenAsociada: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..."
- *               fechaPublicacion: "2024-06-01"
- *               vigente: true
- *               empleadoId: 1
+ *             $ref: '#/components/schemas/Publicacion'
  *     responses:
  *       200:
  *         description: Publicación actualizada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Publicacion'
  *       404:
  *         description: Publicación no encontrada
  */
