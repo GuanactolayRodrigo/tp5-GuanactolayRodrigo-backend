@@ -25,6 +25,11 @@ const transaccionCtrl = require('../controllers/transaccion.controller');
  *         idiomaDestino: "en"
  *         textoDestino: "Hello, how are you?"
  *         emailCliente: "juan.gomez@gmail.com"
+ *         cliente:
+ *           id: 1
+ *           apellido: "Gomez"
+ *           nombre: "Juan"
+ *           dni: "12345678"
  */
 
 /**

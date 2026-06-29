@@ -16,6 +16,7 @@ app.use('/api/socio', require('./src/routes/socio.route.js'));
 app.use('/api/transaccion', require('./src/routes/transaccion.route.js'));
 app.use('/api/empleado', require('./src/routes/empleado.route.js'));
 app.use('/api/publicacion', require('./src/routes/publicacion.route.js'));
+app.use('/api/cliente', require('./src/routes/cliente.route.js'));
 //app.use('/api/agente', require('./src/routes/agente.route.js')); 
 //app.use('/api/sector', require('./src/routes/sector.route')); 
  
@@ -26,7 +27,7 @@ app.set('port', process.env.PORT || 3000);
 // .sync() crea las tablas automáticamente en Postgres si aún no existen 
 // force en false crea las tablas solo si no existe, no borra datos en cada inicio 
  
-sequelize.sync({ force: false })  
+sequelize.sync({ force: true})  
   .then(() => { 
     console.log('Tablas de PostgreSQL sincronizadas'); 
      
